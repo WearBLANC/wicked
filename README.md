@@ -1,7 +1,5 @@
 # Wicked
 
-Wicked é um jogo de browser desenvolvido por WICK3D.
-
 ## Aviso de Direitos Autorais
 © 2024 WICK3D. Todos os direitos reservados.
 Este jogo, incluindo mas não se limitando a todo o código-fonte, gráficos, sons, textos e quaisquer outros elementos contidos nele, é protegido por leis de direitos autorais e tratados internacionais. A reprodução ou distribuição não autorizada deste jogo ou de qualquer parte dele pode resultar em severas penalidades civis e criminais, e será processada na máxima extensão possível nos termos da lei.
