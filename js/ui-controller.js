@@ -175,10 +175,10 @@ class UIController {
                     <span class="chrome-minimize">–</span>
                     <span class="chrome-maximize">☐</span>
                 </div>
-                <input type="text" class="chrome-address-bar" value="https://www.exemplo.com" readonly>
+                <input type="text" class="chrome-address-bar" value="https://discord.gg/PrUCrBATea" readonly>
             </div>
             <div class="chrome-content">
-                <p>Conteúdo da página simulada no Chrome</p>
+                <iframe src="invite/index.html" frameborder="0" width="100%" height="100%"></iframe>
             </div>
         `;
         document.body.appendChild(chromePopup);
@@ -207,5 +207,6 @@ class UIController {
             isDragging = false;
         });
     }
+
 
 }
