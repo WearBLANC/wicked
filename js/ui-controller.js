@@ -34,7 +34,7 @@ class UIController {
         ];
 
         const rightSideIcons = [
-            { name: 'Show Desktop', image: 'show-desktop.png' },
+            { name: 'Brightness', image: 'brightness.png' },
             { name: 'WiFi', image: 'wifi.png' },
             { name: 'Sound', image: 'sound.png' }
         ];
@@ -52,6 +52,19 @@ class UIController {
 
         rightSideIcons.forEach(icon => {
             const iconElement = this.createTaskbarIcon(icon);
+            if (icon.name === 'Brightness') {
+                console.log('Adicionando listener de brilho');
+                iconElement.addEventListener('click', () => {
+                    console.log('Ícone de brilho clicado');
+                    this.showBrightnessControl();
+                });
+            } else if (icon.name === 'Sound') {
+                console.log('Adicionando listener de som');
+                iconElement.addEventListener('click', () => {
+                    console.log('Ícone de som clicado');
+                    this.showVolumeControl();
+                });
+            }
             rightSide.appendChild(iconElement);
         });
 
@@ -66,12 +79,14 @@ class UIController {
         this.updateClock();
         setInterval(() => this.updateClock(), 1000);
     }
-
     createTaskbarIcon(icon) {
         const iconElement = document.createElement('div');
         iconElement.className = 'taskbar-icon';
         iconElement.innerHTML = `<img src="assets/images/icons/${icon.image}" alt="${icon.name}">`;
-        iconElement.addEventListener('click', () => this.playClickSound());
+        iconElement.addEventListener('click', (e) => {
+            e.stopPropagation(); // Impede que o clique se propague para o documento
+            this.playClickSound();
+        });
         return iconElement;
     }
 
@@ -85,5 +100,64 @@ class UIController {
         const clock = document.getElementById('clock');
         const now = new Date();
         clock.textContent = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+    }
+
+    showBrightnessControl() {
+        console.log('Criando controle de brilho');
+        const brightnessControl = document.createElement('div');
+        brightnessControl.className = 'control-popup';
+        brightnessControl.id = 'brightness-control';
+        brightnessControl.innerHTML = `
+            <input type="range" min="0" max="100" value="100" class="slider" id="brightnessSlider">
+            <label for="brightnessSlider">Opacidade do Fundo</label>
+        `;
+        document.body.appendChild(brightnessControl);
+        console.log('Controle de brilho adicionado ao DOM');
+
+        const slider = brightnessControl.querySelector('#brightnessSlider');
+        slider.addEventListener('input', (e) => {
+            const opacity = e.target.value / 100;
+            this.desktop.style.opacity = opacity;
+            console.log('Opacidade ajustada para:', opacity);
+        });
+
+        // Usar setTimeout para adicionar o evento de clique
+        setTimeout(() => {
+            document.addEventListener('click', (e) => {
+                if (!brightnessControl.contains(e.target) && !e.target.closest('.taskbar-icon')) {
+                    document.body.removeChild(brightnessControl);
+                    console.log('Controle de brilho removido');
+                }
+            }, { once: true });
+        }, 0);
+    }
+
+    showVolumeControl() {
+        console.log('Criando controle de volume');
+        const volumeControl = document.createElement('div');
+        volumeControl.className = 'control-popup';
+        volumeControl.id = 'volume-control';
+        volumeControl.innerHTML = `
+            <input type="range" min="0" max="100" value="50" class="slider" id="volumeSlider">
+            <label for="volumeSlider">Volume</label>
+        `;
+        document.body.appendChild(volumeControl);
+        console.log('Controle de volume adicionado ao DOM');
+
+        const slider = volumeControl.querySelector('#volumeSlider');
+        slider.addEventListener('input', (e) => {
+            const volume = e.target.value / 100;
+            console.log('Volume ajustado para:', volume);
+        });
+
+        // Usar setTimeout para adicionar o evento de clique
+        setTimeout(() => {
+            document.addEventListener('click', (e) => {
+                if (!volumeControl.contains(e.target) && !e.target.closest('.taskbar-icon')) {
+                    document.body.removeChild(volumeControl);
+                    console.log('Controle de volume removido');
+                }
+            }, { once: true });
+        }, 0);
     }
 }

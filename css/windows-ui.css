@@ -94,6 +94,7 @@ body {
     height: 30px;
     margin: 0 5px;
     cursor: pointer;
+    z-index: 1;
 }
 
 .taskbar-icon img {
@@ -104,4 +105,28 @@ body {
 #clock {
     color: white;
     margin-left: 10px;
+}
+
+.control-popup {
+    position: fixed; /* Alterado de absolute para fixed */
+    bottom: 50px;
+    right: 10px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    z-index: 10000; /* Aumentado para garantir que fique acima de tudo */
+}
+
+.control-popup .slider {
+    width: 200px;
+    margin-bottom: 5px;
+}
+
+.control-popup label {
+    display: block;
+    text-align: center;
+    font-size: 12px;
+    color: #333;
 }
