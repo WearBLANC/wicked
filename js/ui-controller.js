@@ -4,7 +4,31 @@ class UIController {
         this.taskbar = document.getElementById('taskbar');
         this.initializeDesktop();
         this.initializeTaskbar();
+        this.achievementsUnlocked = {}; // Inicializa o objeto achievementsUnlocked aqui
+
+        this.unlockAchievement('Wicked');
     }
+
+    unlockAchievement(name) {
+        // Verifica se o achievement já foi desbloqueado
+        if (!this.achievementsUnlocked[name]) {
+            this.achievementsUnlocked[name] = true;
+    
+            // Exibe apenas a imagem do achievement no canto inferior direito
+            const notification = document.createElement('div');
+            notification.className = 'achievement-notification';
+            notification.innerHTML = `
+                <img src="assets/images/achievements/Wicked.png" alt="${name}">
+            `;
+            document.body.appendChild(notification);
+    
+            // Remove a notificação após 5 segundos
+            setTimeout(() => {
+                notification.remove();
+            }, 5000);
+        }
+    }
+    
 
     initializeDesktop() {
         const icons = [
@@ -24,6 +48,7 @@ class UIController {
             iconElement.addEventListener('click', () => {
                 this.playClickSound();
                 if (icon.name === 'Wicked') this.showChromePopup();
+                if (icon.name === 'Uabo') this.showAchievementsPopup();
             });
             this.desktop.appendChild(iconElement);
         });
@@ -178,7 +203,7 @@ class UIController {
                 <input type="text" class="chrome-address-bar" value="https://discord.gg/PrUCrBATea" readonly>
             </div>
             <div class="chrome-content">
-                <iframe src="invite/index.html" frameborder="0" width="100%" height="100%"></iframe>
+                <iframe src="invite/main.html" frameborder="0" width="100%" height="100%"></iframe>
             </div>
         `;
         document.body.appendChild(chromePopup);
@@ -200,6 +225,71 @@ class UIController {
             if (isDragging) {
                 chromePopup.style.left = `${e.clientX - offsetX}px`;
                 chromePopup.style.top = `${e.clientY - offsetY}px`;
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+    }
+
+    showAchievementsPopup() {
+        const achievements = [
+            {
+                image: 'achievement1.png',
+                title: 'Wicked',
+                description: 'Conquistado por seres infetado!'
+            },
+            {
+                image: 'achievement2.png',
+                title: 'Explorador',
+                description: 'Conquistado por explorar todas as funcionalidades.'
+            },
+            {
+                image: 'achievement3.png',
+                title: 'Mestre',
+                description: 'Conquistado por completar todas as tarefas do Uabo.'
+            }
+        ];
+
+        const achievementsPopup = document.createElement('div');
+        achievementsPopup.className = 'achievements-popup';
+        achievementsPopup.innerHTML = `
+            <div class="achievements-header">
+                <span>Achievements</span>
+                <span class="close-button" onclick="this.parentElement.parentElement.remove()">×</span>
+            </div>
+            <div class="achievements-content">
+                ${achievements.map(achievement => `
+                    <div class="achievement">
+                        <img src="assets/images/achievements/${achievement.image}" alt="${achievement.title}">
+                        <div class="achievement-info">
+                            <h3>${achievement.title}</h3>
+                            <p>${achievement.description}</p>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+        document.body.appendChild(achievementsPopup);
+
+        // Função de arrasto
+        let offsetX = 0;
+        let offsetY = 0;
+        let isDragging = false;
+
+        const header = achievementsPopup.querySelector('.achievements-header');
+
+        header.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            offsetX = e.clientX - achievementsPopup.offsetLeft;
+            offsetY = e.clientY - achievementsPopup.offsetTop;
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                achievementsPopup.style.left = `${e.clientX - offsetX}px`;
+                achievementsPopup.style.top = `${e.clientY - offsetY}px`;
             }
         });
 
