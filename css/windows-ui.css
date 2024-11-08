@@ -108,15 +108,17 @@ body {
 }
 
 .control-popup {
-    position: fixed; /* Alterado de absolute para fixed */
+    position: fixed;
+    /* Alterado de absolute para fixed */
     bottom: 50px;
     right: 10px;
     background-color: #f0f0f0;
     border: 1px solid #ccc;
     padding: 10px;
     border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    z-index: 10000; /* Aumentado para garantir que fique acima de tudo */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 10000;
+    /* Aumentado para garantir que fique acima de tudo */
 }
 
 .control-popup .slider {
@@ -129,4 +131,61 @@ body {
     text-align: center;
     font-size: 12px;
     color: #333;
+}
+
+
+/* chrome pop up*/
+
+.chrome-popup {
+    position: fixed;
+    top: 50px;
+    left: 50px;
+    width: 800px;
+    height: 500px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    z-index: 10001;
+    display: flex;
+    flex-direction: column;
+}
+
+.chrome-header {
+    display: flex;
+    align-items: center;
+    background-color: #f1f3f4;
+    padding: 8px;
+    border-bottom: 1px solid #ccc;
+    cursor: move; /* Indica que o cabeçalho pode ser movido */
+}
+
+.chrome-controls {
+    display: flex;
+    gap: 5px;
+    margin-left: auto; /* Garante que os controlos fiquem no lado direito */
+}
+
+
+.chrome-controls span {
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+}
+
+.chrome-address-bar {
+    flex-grow: 1;
+    margin-right: auto; /* Garante que a barra de endereço fique à esquerda */
+    padding: 5px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    background-color: #fff;
+    color: #333;
+}
+
+.chrome-content {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
 }

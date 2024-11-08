@@ -21,7 +21,10 @@ class UIController {
                 <img src="assets/images/icons/${icon.image}" alt="${icon.name}">
                 <span>${icon.name}</span>
             `;
-            iconElement.addEventListener('click', () => this.playClickSound());
+            iconElement.addEventListener('click', () => {
+                this.playClickSound();
+                if (icon.name === 'Wicked') this.showChromePopup();
+            });
             this.desktop.appendChild(iconElement);
         });
     }
@@ -79,6 +82,7 @@ class UIController {
         this.updateClock();
         setInterval(() => this.updateClock(), 1000);
     }
+
     createTaskbarIcon(icon) {
         const iconElement = document.createElement('div');
         iconElement.className = 'taskbar-icon';
@@ -160,4 +164,48 @@ class UIController {
             }, { once: true });
         }, 0);
     }
+
+    showChromePopup() {
+        const chromePopup = document.createElement('div');
+        chromePopup.className = 'chrome-popup';
+        chromePopup.innerHTML = `
+            <div class="chrome-header">
+                <div class="chrome-controls">
+                    <span class="chrome-close" onclick="this.parentElement.parentElement.parentElement.remove()">×</span>
+                    <span class="chrome-minimize">–</span>
+                    <span class="chrome-maximize">☐</span>
+                </div>
+                <input type="text" class="chrome-address-bar" value="https://www.exemplo.com" readonly>
+            </div>
+            <div class="chrome-content">
+                <p>Conteúdo da página simulada no Chrome</p>
+            </div>
+        `;
+        document.body.appendChild(chromePopup);
+
+        // Função de arrasto
+        let offsetX = 0;
+        let offsetY = 0;
+        let isDragging = false;
+
+        const header = chromePopup.querySelector('.chrome-header');
+
+        header.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            offsetX = e.clientX - chromePopup.offsetLeft;
+            offsetY = e.clientY - chromePopup.offsetTop;
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                chromePopup.style.left = `${e.clientX - offsetX}px`;
+                chromePopup.style.top = `${e.clientY - offsetY}px`;
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+    }
+
 }
