@@ -4,31 +4,26 @@ class UIController {
         this.taskbar = document.getElementById('taskbar');
         this.initializeDesktop();
         this.initializeTaskbar();
-        this.achievementsUnlocked = {}; // Inicializa o objeto achievementsUnlocked aqui
-
+        this.achievementsUnlocked = {};
         this.unlockAchievement('Wicked');
     }
 
     unlockAchievement(name) {
-        // Verifica se o achievement já foi desbloqueado
         if (!this.achievementsUnlocked[name]) {
             this.achievementsUnlocked[name] = true;
-    
-            // Exibe apenas a imagem do achievement no canto inferior direito
+
             const notification = document.createElement('div');
             notification.className = 'achievement-notification';
             notification.innerHTML = `
                 <img src="assets/images/achievements/Wicked.png" alt="${name}">
             `;
             document.body.appendChild(notification);
-    
-            // Remove a notificação após 5 segundos
+
             setTimeout(() => {
                 notification.remove();
             }, 5000);
         }
     }
-    
 
     initializeDesktop() {
         const icons = [
@@ -113,7 +108,7 @@ class UIController {
         iconElement.className = 'taskbar-icon';
         iconElement.innerHTML = `<img src="assets/images/icons/${icon.image}" alt="${icon.name}">`;
         iconElement.addEventListener('click', (e) => {
-            e.stopPropagation(); // Impede que o clique se propague para o documento
+            e.stopPropagation();
             this.playClickSound();
         });
         return iconElement;
@@ -150,7 +145,6 @@ class UIController {
             console.log('Opacidade ajustada para:', opacity);
         });
 
-        // Usar setTimeout para adicionar o evento de clique
         setTimeout(() => {
             document.addEventListener('click', (e) => {
                 if (!brightnessControl.contains(e.target) && !e.target.closest('.taskbar-icon')) {
@@ -179,7 +173,6 @@ class UIController {
             console.log('Volume ajustado para:', volume);
         });
 
-        // Usar setTimeout para adicionar o evento de clique
         setTimeout(() => {
             document.addEventListener('click', (e) => {
                 if (!volumeControl.contains(e.target) && !e.target.closest('.taskbar-icon')) {
@@ -208,7 +201,6 @@ class UIController {
         `;
         document.body.appendChild(chromePopup);
 
-        // Função de arrasto
         let offsetX = 0;
         let offsetY = 0;
         let isDragging = false;
@@ -273,7 +265,6 @@ class UIController {
         `;
         document.body.appendChild(achievementsPopup);
 
-        // Função de arrasto
         let offsetX = 0;
         let offsetY = 0;
         let isDragging = false;
@@ -297,6 +288,4 @@ class UIController {
             isDragging = false;
         });
     }
-
-
 }
